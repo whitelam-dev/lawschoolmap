@@ -1,0 +1,16 @@
+[
+  {"rank":1, "name":"Stanford University", "url":"https://lsd.law/schools/stanford-law-school", "address":"450 Jane Stanford Way, Stanford, CA 94305"},
+  {"rank":2, "name":"Yale University", "url":"https://lsd.law/schools/yale-law-school", "address":"New Haven, CT 06520"},
+  {"rank":3, "name":"University of Chicago", "url":"https://lsd.law/schools/university-of-chicago-law-school", "address":"5801 S Ellis Ave, Chicago, IL 60637"},
+  {"rank":4, "name":"University of Virginia", "url":"https://lsd.law/schools/uva-law-school", "address":"1827 University Ave, Charlottesville, VA 22903"},
+  {"rank":5, "name":"University of Pennsylvania", "url":"https://lsd.law/schools/penn-law", "address":"Philadelphia, PA 19104"},
+  {"rank":6, "name":"Duke University", "url":"https://lsd.law/schools/duke-law", "address":"2138 Campus Drive, Durham, NC 27708"},
+  {"rank":7, "name":"Harvard University", "url":"https://lsd.law/schools/harvard-law-school", "address":"Massachusetts Hall, Cambridge, MA 02138"},
+  {"rank":8, "name":"University of Michigan", "url":"https://lsd.law/schools/michigan-law-school", "address":"500 S State St, Ann Arbor, MI 48109"},
+  {"rank":9, "name":"New York University", "url":"https://lsd.law/schools/nyu-law-school", "address":"50 W 4th St, New York, NY 10012"},
+  {"rank":10, "name":"Northwestern University", "url":"https://lsd.law/schools/northwestern-law-school", "address":"633 Clark St, Evanston, IL 60208"},
+  {"rank":11, "name":"Columbia University", "url":"https://lsd.law/schools/columbia-law-school", "address":"116th St & Broadway, New York, NY 10027"},
+  {"rank":12, "name":"University of California—Los Angeles", "url":"https://lsd.law/schools/ucla-law", "address":"405 Hilgard Ave, Los Angeles, CA 90095"},
+  {"rank":13, "name":"University of California—Berkeley", "url":"https://lsd.law/schools/uc-berkeley-law-school", "address":"2200 University Ave, Berkeley, CA 94720"},
+  {"rank":14, "name":"University of Texas at Austin", "url":"https://lsd.law/schools/ut-austin-law-school", "address":"110 Inner Campus Drive, Austin, TX 78705"}
+]

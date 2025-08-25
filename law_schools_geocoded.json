@@ -1,0 +1,338 @@
+[
+  {
+    "rank": 1,
+    "name": "Stanford University",
+    "url": "https://lsd.law/schools/stanford-law-school",
+    "address": "450 Jane Stanford Way, Stanford, CA 94305",
+    "lat": "37.4292437",
+    "lon": "-122.1714879"
+  },
+  {
+    "rank": 2,
+    "name": "Yale University",
+    "url": "https://lsd.law/schools/yale-law-school",
+    "address": "New Haven, CT 06520",
+    "lat": "41.3082138",
+    "lon": "-72.9250518"
+  },
+  {
+    "rank": 3,
+    "name": "University of Chicago",
+    "url": "https://lsd.law/schools/university-of-chicago-law-school",
+    "address": "5801 S Ellis Ave, Chicago, IL 60637",
+    "lat": "41.7924852",
+    "lon": "-87.6010478"
+  },
+  {
+    "rank": 4,
+    "name": "University of Virginia",
+    "url": "https://lsd.law/schools/uva-law-school",
+    "address": "1827 University Ave, Charlottesville, VA 22903",
+    "lat": "38.0369987",
+    "lon": "-78.5027473"
+  },
+  {
+    "rank": 5,
+    "name": "University of Pennsylvania",
+    "url": "https://lsd.law/schools/penn-law",
+    "address": "Philadelphia, PA 19104",
+    "lat": "39.9527237",
+    "lon": "-75.1635262"
+  },
+  {
+    "rank": 6,
+    "name": "Duke University",
+    "url": "https://lsd.law/schools/duke-law",
+    "address": "2138 Campus Drive, Durham, NC 27708",
+    "lat": "35.9997187",
+    "lon": "-78.9332881"
+  },
+  {
+    "rank": 7,
+    "name": "Harvard University",
+    "url": "https://lsd.law/schools/harvard-law-school",
+    "address": "Massachusetts Hall, Cambridge, MA 02138",
+    "lat": "42.3744495",
+    "lon": "-71.1182876"
+  },
+  {
+    "rank": 8,
+    "name": "University of Michigan",
+    "url": "https://lsd.law/schools/michigan-law-school",
+    "address": "500 S State St, Ann Arbor, MI 48109",
+    "lat": "42.2834643",
+    "lon": "-83.7383843"
+  },
+  {
+    "rank": 9,
+    "name": "New York University",
+    "url": "https://lsd.law/schools/nyu-law-school",
+    "address": "50 W 4th St, New York, NY 10012",
+    "lat": "40.7289742",
+    "lon": "-73.9965041"
+  },
+  {
+    "rank": 10,
+    "name": "Northwestern University",
+    "url": "https://lsd.law/schools/northwestern-law-school",
+    "address": "633 Clark St, Evanston, IL 60208",
+    "lat": "42.0500061",
+    "lon": "-87.6751482"
+  },
+  {
+    "rank": 11,
+    "name": "Columbia University",
+    "url": "https://lsd.law/schools/columbia-law-school",
+    "address": "116th St & Broadway, New York, NY 10027",
+    "lat": "40.8077772",
+    "lon": "-73.9638473"
+  },
+  {
+    "rank": 12,
+    "name": "University of California\u2014Los Angeles",
+    "url": "https://lsd.law/schools/ucla-law",
+    "address": "405 Hilgard Ave, Los Angeles, CA 90095",
+    "lat": "34.0739980",
+    "lon": "-118.4377339"
+  },
+  {
+    "rank": 13,
+    "name": "University of California\u2014Berkeley",
+    "url": "https://lsd.law/schools/uc-berkeley-law-school",
+    "address": "2200 University Ave, Berkeley, CA 94720",
+    "lat": "37.8724309",
+    "lon": "-122.2660896"
+  },
+  {
+    "rank": 14,
+    "name": "University of Texas at Austin",
+    "url": "https://lsd.law/schools/ut-austin-law-school",
+    "address": "110 Inner Campus Drive, Austin, TX 78705",
+    "lat": "30.2860583",
+    "lon": "-97.7393532"
+  },
+  {
+    "rank": 15,
+    "name": "Washington University in St. Louis",
+    "url": "https://lsd.law/schools/washington-university-school-of-law",
+    "address": "1 Brookings Dr, St. Louis, MO 63130",
+    "lat": "38.6472402",
+    "lon": "-90.3084017"
+  },
+  {
+    "rank": 16,
+    "name": "Vanderbilt University",
+    "url": "https://lsd.law/schools/vanderbilt-law-school",
+    "address": "2201 West End Ave, Nashville, TN 37235",
+    "lat": "36.1399800",
+    "lon": "-86.8004880"
+  },
+  {
+    "rank": 17,
+    "name": "Georgetown University",
+    "url": "https://lsd.law/schools/georgetown-law",
+    "address": "3700 O St NW, Washington, DC 20057",
+    "lat": "38.9089393",
+    "lon": "-77.0745796"
+  },
+  {
+    "rank": 18,
+    "name": "Cornell University",
+    "url": "https://lsd.law/schools/cornell-law-school",
+    "address": "300 Day Hall, Ithaca, NY 14853",
+    "lat": null,
+    "lon": null
+  },
+  {
+    "rank": 19,
+    "name": "University of North Carolina",
+    "url": "https://lsd.law/schools/unc-law-school",
+    "address": "Chapel Hill, NC 27599",
+    "lat": "35.9131542",
+    "lon": "-79.0557800"
+  },
+  {
+    "rank": 20,
+    "name": "University of Notre Dame",
+    "url": "https://lsd.law/schools/notre-dame-law-school",
+    "address": "400 Main Building, Notre Dame, IN 46556",
+    "lat": null,
+    "lon": null
+  },
+  {
+    "rank": 21,
+    "name": "University of Minnesota",
+    "url": "https://lsd.law/schools/university-of-minnesota-law-school",
+    "address": "100 Church St SE, Minneapolis, MN 55455",
+    "lat": "44.9758896",
+    "lon": "-93.2344715"
+  },
+  {
+    "rank": 22,
+    "name": "Boston University",
+    "url": "https://lsd.law/schools/boston-university-law-school",
+    "address": "233 Bay State Rd, Boston, MA 02215",
+    "lat": "42.3508609",
+    "lon": "-71.1038666"
+  },
+  {
+    "rank": 23,
+    "name": "Texas A&M University",
+    "url": "https://lsd.law/schools/texas-am-law-school",
+    "address": "400 Bizzell St, College Station, TX 77843",
+    "lat": "30.6144343",
+    "lon": "-96.3419994"
+  },
+  {
+    "rank": 24,
+    "name": "University of Georgia",
+    "url": "https://lsd.law/schools/uga-law-school",
+    "address": "Administration Building, Athens, GA 30602",
+    "lat": "33.9562272",
+    "lon": "-83.3740233"
+  },
+  {
+    "rank": 25,
+    "name": "Boston College",
+    "url": "https://lsd.law/schools/boston-college-law-school",
+    "address": "140 Commonwealth Ave, Chestnut Hill, MA 02467",
+    "lat": "42.3361605",
+    "lon": "-71.1682930"
+  },
+  {
+    "rank": 26,
+    "name": "University of Southern California",
+    "url": "https://lsd.law/schools/usc-gould-school-of-law",
+    "address": "University Park, Los Angeles, CA 90089",
+    "lat": "34.0271773",
+    "lon": "-118.2840429"
+  },
+  {
+    "rank": 27,
+    "name": "Wake Forest University",
+    "url": "https://lsd.law/schools/wake-forest-law-school",
+    "address": "1834 Wake Forest Rd, Winston-Salem, NC 27109",
+    "lat": "36.1338930",
+    "lon": "-80.2755578"
+  },
+  {
+    "rank": 28,
+    "name": "Brigham Young University",
+    "url": "https://lsd.law/schools/byu-law-school",
+    "address": "Provo, UT 84602",
+    "lat": "40.2337289",
+    "lon": "-111.6587085"
+  },
+  {
+    "rank": 29,
+    "name": "University of Wisconsin",
+    "url": "https://lsd.law/schools/wisconsin-law-school",
+    "address": "500 Lincoln Dr, Madison, WI 53706",
+    "lat": "43.0753694",
+    "lon": "-89.4043579"
+  },
+  {
+    "rank": 30,
+    "name": "Ohio State University",
+    "url": "https://lsd.law/schools/moritz-college-of-law",
+    "address": "281 W Lane Ave, Columbus, OH 43210",
+    "lat": "40.0061491",
+    "lon": "-83.0146620"
+  },
+  {
+    "rank": 31,
+    "name": "George Washington University",
+    "url": "https://lsd.law/schools/gw-law-school",
+    "address": "2121 I St NW, Washington, DC 20052",
+    "lat": "38.9006121",
+    "lon": "-77.0470953"
+  },
+  {
+    "rank": 32,
+    "name": "William & Mary Law School",
+    "url": "https://lsd.law/schools/william-and-mary-law-school",
+    "address": "Sadler Center, Williamsburg, VA 23185",
+    "lat": "37.2716681",
+    "lon": "-76.7143363"
+  },
+  {
+    "rank": 33,
+    "name": "University of Utah",
+    "url": "https://lsd.law/schools/university-of-utah-law-school",
+    "address": "201 Presidents' Cir, Salt Lake City, UT 84112",
+    "lat": "40.7628137",
+    "lon": "-111.8368719"
+  },
+  {
+    "rank": 34,
+    "name": "University of Alabama",
+    "url": "https://lsd.law/schools/university-of-alabama-law-school",
+    "address": "739 University Blvd, Tuscaloosa, AL 35487",
+    "lat": "33.2094613",
+    "lon": "-87.5460812"
+  },
+  {
+    "rank": 35,
+    "name": "George Mason University",
+    "url": "https://lsd.law/schools/antonin-scalia-law-school",
+    "address": "4400 University Dr, Fairfax, VA 22030",
+    "lat": "38.8313333",
+    "lon": "-77.3079884"
+  },
+  {
+    "rank": 36,
+    "name": "University of Iowa",
+    "url": "https://lsd.law/schools/iowa-law",
+    "address": "Iowa City, IA 52242",
+    "lat": "41.6612561",
+    "lon": "-91.5299106"
+  },
+  {
+    "rank": 37,
+    "name": "Washington and Lee University",
+    "url": "https://lsd.law/schools/washington-and-lee-law-school",
+    "address": "204 W Washington St, Lexington, VA 24450",
+    "lat": "37.7866975",
+    "lon": "-79.4442141"
+  },
+  {
+    "rank": 38,
+    "name": "University of California\u2014Irvine",
+    "url": "https://lsd.law/schools/uc-irvine-law",
+    "address": "Irvine, CA 92697",
+    "lat": "33.6856969",
+    "lon": "-117.8259810"
+  },
+  {
+    "rank": 39,
+    "name": "Emory University",
+    "url": "https://lsd.law/schools/emory-law-school",
+    "address": "201 Dowman Dr, Atlanta, GA 30322",
+    "lat": "33.7969409",
+    "lon": "-84.3237147"
+  },
+  {
+    "rank": 40,
+    "name": "Fordham University",
+    "url": "https://lsd.law/schools/fordham-law-school",
+    "address": "441 E Fordham Rd, Bronx, NY 10458",
+    "lat": "40.8603705",
+    "lon": "-73.8853369"
+  },
+  {
+    "rank": 41,
+    "name": "University of Florida (Levin)",
+    "url": "https://lsd.law/schools/uf-law-school",
+    "address": "Gainesville, FL 32611",
+    "lat": "29.6519684",
+    "lon": "-82.3249846"
+  },
+  {
+    "rank": 42,
+    "name": "Florida State University",
+    "url": "https://lsd.law/schools/fsu-law",
+    "address": "600 W College Ave, Tallahassee, FL 32306",
+    "lat": "30.4422160",
+    "lon": "-84.2974530"
+  }
+]

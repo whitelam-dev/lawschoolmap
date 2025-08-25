@@ -1,0 +1,18 @@
+[
+  {"rank":15, "name":"Washington University in St. Louis", "url":"https://lsd.law/schools/washington-university-school-of-law", "address":"1 Brookings Dr, St. Louis, MO 63130"},
+  {"rank":16, "name":"Vanderbilt University", "url":"https://lsd.law/schools/vanderbilt-law-school", "address":"2201 West End Ave, Nashville, TN 37235"},
+  {"rank":17, "name":"Georgetown University", "url":"https://lsd.law/schools/georgetown-law", "address":"3700 O St NW, Washington, DC 20057"},
+  {"rank":18, "name":"Cornell University", "url":"https://lsd.law/schools/cornell-law-school", "address":"300 Day Hall, Ithaca, NY 14853"},
+  {"rank":19, "name":"University of North Carolina", "url":"https://lsd.law/schools/unc-law-school", "address":"Chapel Hill, NC 27599"},
+  {"rank":20, "name":"University of Notre Dame", "url":"https://lsd.law/schools/notre-dame-law-school", "address":"400 Main Building, Notre Dame, IN 46556"},
+  {"rank":21, "name":"University of Minnesota", "url":"https://lsd.law/schools/university-of-minnesota-law-school", "address":"100 Church St SE, Minneapolis, MN 55455"},
+  {"rank":22, "name":"Boston University", "url":"https://lsd.law/schools/boston-university-law-school", "address":"233 Bay State Rd, Boston, MA 02215"},
+  {"rank":23, "name":"Texas A&M University", "url":"https://lsd.law/schools/texas-am-law-school", "address":"400 Bizzell St, College Station, TX 77843"},
+  {"rank":24, "name":"University of Georgia", "url":"https://lsd.law/schools/uga-law-school", "address":"Administration Building, Athens, GA 30602"},
+  {"rank":25, "name":"Boston College", "url":"https://lsd.law/schools/boston-college-law-school", "address":"140 Commonwealth Ave, Chestnut Hill, MA 02467"},
+  {"rank":26, "name":"University of Southern California", "url":"https://lsd.law/schools/usc-gould-school-of-law", "address":"University Park, Los Angeles, CA 90089"},
+  {"rank":27, "name":"Wake Forest University", "url":"https://lsd.law/schools/wake-forest-law-school", "address":"1834 Wake Forest Rd, Winston-Salem, NC 27109"},
+  {"rank":28, "name":"Brigham Young University", "url":"https://lsd.law/schools/byu-law-school", "address":"Provo, UT 84602"},
+  {"rank":29, "name":"University of Wisconsin", "url":"https://lsd.law/schools/wisconsin-law-school", "address":"500 Lincoln Dr, Madison, WI 53706"},
+  {"rank":30, "name":"Ohio State University", "url":"https://lsd.law/schools/moritz-college-of-law", "address":"281 W Lane Ave, Columbus, OH 43210"}
+]

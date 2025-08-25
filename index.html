@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Law School Map</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map { height: 95vh; width: 100vw; }
+    .legend { background: white; padding: 10px; line-height: 1.5; }
+    .legend span { display: inline-block; width: 18px; height: 18px; margin-right: 6px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+  <h2>US Law Schools Map</h2>
+  <div style="display:flex; height:95vh;">
+    <div id="sidebar" style="width:220px; background:#fafafa; padding:16px 8px 8px 16px; border-right:1px solid #ddd;">
+      <div style="margin-bottom:10px;">
+        <label><input type="radio" name="filterMode" value="rank" checked> Filter by Rank</label><br>
+        <label><input type="radio" name="filterMode" value="name"> Filter by Name</label>
+      </div>
+      <div id="rankGroupToggles"></div>
+      <div id="nameGroupToggles" style="display:none;"></div>
+    </div>
+    <div id="map" style="flex:1;"></div>
+  </div>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Stub mapping functions to avoid ReferenceError
+    function getAnnikaKey(name) { return name.trim().toLowerCase(); }
+    function getMorganKey(name) { return name.trim().toLowerCase(); }
+    document.addEventListener('DOMContentLoaded', function() {
+    // Rank group colors
+    const rankColors = [
+      { label: 'HYS', color: '#FFD700', icon: 'star' }, // Harvard, Yale, Stanford only
+      { range: [1, 14], color: '#e41a1c', label: 'Top 14' },
+      { range: [15, 30], color: '#377eb8', label: '15-30' },
+      { range: [31, 75], color: '#4daf4a', label: '31-75' },
+      { range: [76, 100], color: '#ff7f00', label: '76-100' }
+    ];
+
+    // Load probabilities and city lookup
+    Promise.all([
+      fetch('law_schools_geocoded.json').then(res => res.json()),
+      fetch('annika_probabilities.json').then(res => res.json()),
+      fetch('morgan_probabilities.json').then(res => res.json())
+    ]).then(([data, annikaProbs, morganProbs]) => {
+      window.annikaProbabilities = annikaProbs;
+      window.morganProbabilities = morganProbs;
+      window.schoolCityLookup = {};
+      data.forEach(s => { if(s.name && s.city) window.schoolCityLookup[s.name] = s.city; });
+        const map = L.map('map').setView([39.5, -98.35], 4);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          maxZoom: 18,
+          attribution: '&copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
+
+        // Utility to get group label from rank
+        function getGroupLabel(rank) {
+          for (const group of rankColors) {
+            if (!group.range) continue; // skip HYS and other non-range groups
+            if (rank >= group.range[0] && rank <= group.range[1]) return group.label;
+          }
+          return null;
+        }
+
+        // Prepare markers by group
+        const markersByGroup = {};
+        rankColors.forEach(g => { markersByGroup[g.label] = []; });
+
+        data.forEach(school => {
+          if (!school.lat || !school.lon) return;
+          const rank = school.rank;
+          const name = school.name;
+          const normalized = name.trim().toLowerCase();
+          let groupLabel;
+          if (["harvard university", "yale university", "stanford university"].includes(normalized)) {
+            groupLabel = "HYS";
+          } else {
+            groupLabel = getGroupLabel(rank);
+          }
+          let color = '#888';
+          let iconType = null;
+          for (const group of rankColors) {
+            if (group.label === 'HYS' && groupLabel === 'HYS') {
+              color = group.color;
+              iconType = group.icon || null;
+              break;
+            } else if (group.label !== 'HYS' && rank >= group.range[0] && rank <= group.range[1] && groupLabel !== 'HYS') {
+              color = group.color;
+              iconType = group.icon || null;
+              break;
+            }
+          }
+          let marker;
+          if (iconType === 'star') {
+            marker = L.marker([parseFloat(school.lat), parseFloat(school.lon)], {
+              icon: L.divIcon({
+                className: '',
+                html: '<svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,2 17,10 26,10.5 19,16 21,25 14,20 7,25 9,16 2,10.5 11,10" fill="#FFD700" stroke="#bfa900" stroke-width="2"/></svg>',
+                iconSize: [28, 28],
+                iconAnchor: [14, 20]
+              })
+            });
+          } else {
+            marker = L.circleMarker([parseFloat(school.lat), parseFloat(school.lon)], {
+              radius: 8,
+              fillColor: color,
+              color: '#222',
+              weight: 1,
+              opacity: 1,
+              fillOpacity: 0.85
+            });
+          }
+          marker.bindPopup(
+            `<b>#${school.rank}: ${school.name}</b><br>` +
+            (school.address ? `${school.address}<br>` : '') +
+            (school.url ? `<a href="${school.url}" target="_blank">LSD.law profile</a>` : '')
+          );
+          markersByGroup[groupLabel].push(marker);
+        });
+
+        // Sidebar toggles
+        const togglesDiv = document.getElementById('rankGroupToggles');
+        const nameTogglesDiv = document.getElementById('nameGroupToggles');
+        const groupActive = {};
+        rankColors.forEach(g => groupActive[g.label] = true);
+        // For name filtering
+        const annikaSchools = [
+          "harvard university", "yale university", "stanford university", "columbia university", "new york university", "university of chicago", "university of pennsylvania"
+        ];
+        const morganSchools = [
+          "yale university", "stanford university", "university of chicago", "university of virginia", "university of pennsylvania", "harvard university", "duke university", "university of michigan", "new york university", "columbia university", "northwestern university", "university of california—los angeles", "university of california—berkeley", "georgetown university", "cornell university", "boston university", "boston college", "university of montana", "university of georgia"
+        ].filter(s => !annikaSchools.includes(s));
+        const nameGroups = [
+          { label: 'Annika', icon: 'A', schools: annikaSchools },
+          { label: 'Morgan', icon: 'M', schools: morganSchools }
+        ];
+        const nameGroupActive = { 'Annika': true, 'Morgan': true };
+        function renderToggles() {
+          // Show/hide toggles based on filter mode
+          if (document.querySelector('input[name="filterMode"]:checked').value === 'rank') {
+            togglesDiv.style.display = '';
+            nameTogglesDiv.style.display = 'none';
+            togglesDiv.innerHTML = '';
+            rankColors.forEach(group => {
+              let box;
+              if (group.icon === 'star') {
+                box = document.createElement('span');
+                box.style.display = 'inline-block';
+                box.style.width = '28px';
+                box.style.height = '28px';
+                box.style.marginRight = '10px';
+                box.style.marginBottom = '6px';
+                box.style.verticalAlign = 'middle';
+                box.style.cursor = 'pointer';
+                box.title = group.label;
+                box.innerHTML = groupActive[group.label]
+                  ? '<svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,2 17,10 26,10.5 19,16 21,25 14,20 7,25 9,16 2,10.5 11,10" fill="#FFD700" stroke="#bfa900" stroke-width="2"/></svg>'
+                  : '<svg width="28" height="28" viewBox="0 0 28 28"><polygon points="14,2 17,10 26,10.5 19,16 21,25 14,20 7,25 9,16 2,10.5 11,10" fill="#ccc" stroke="#888" stroke-width="2"/></svg>';
+                box.onclick = function() {
+                  groupActive[group.label] = !groupActive[group.label];
+                  renderToggles();
+                  updateMarkers();
+                };
+              } else {
+                box = document.createElement('span');
+                box.style.display = 'inline-block';
+                box.style.width = '22px';
+                box.style.height = '22px';
+                box.style.marginRight = '10px';
+                box.style.marginBottom = '6px';
+                box.style.verticalAlign = 'middle';
+                box.style.cursor = 'pointer';
+                box.style.background = groupActive[group.label] ? group.color : '#ccc';
+                box.style.border = '2px solid #222';
+                box.title = group.label;
+                box.onclick = function() {
+                  groupActive[group.label] = !groupActive[group.label];
+                  renderToggles();
+                  updateMarkers();
+                };
+              }
+              togglesDiv.appendChild(box);
+              const label = document.createElement('span');
+              label.textContent = group.label;
+              label.style.marginRight = '8px';
+              label.style.verticalAlign = 'middle';
+              togglesDiv.appendChild(label);
+              togglesDiv.appendChild(document.createElement('br'));
+            });
+          } else {
+            togglesDiv.style.display = 'none';
+            nameTogglesDiv.style.display = '';
+            nameTogglesDiv.innerHTML = '';
+            nameGroups.forEach(group => {
+              let box = document.createElement('span');
+              box.style.display = 'inline-block';
+              box.style.width = '28px';
+              box.style.height = '28px';
+              box.style.marginRight = '10px';
+              box.style.marginBottom = '6px';
+              box.style.verticalAlign = 'middle';
+              box.style.cursor = 'pointer';
+              box.style.border = '2px solid #222';
+              box.style.background = nameGroupActive[group.label] ? (group.label === 'Annika' ? '#FFD700' : '#377eb8') : '#ccc';
+              box.style.color = '#222';
+              box.style.fontWeight = 'bold';
+              box.style.fontSize = '20px';
+              box.style.textAlign = 'center';
+              box.title = group.label;
+              box.innerText = group.icon;
+              box.onclick = function() {
+                // Toggle expand/collapse
+                const expanded = box.getAttribute('data-expanded') === 'true';
+                document.querySelectorAll('.name-group-dropdown').forEach(e => e.style.display = 'none');
+                document.querySelectorAll('.name-group-expand').forEach(e => e.setAttribute('data-expanded', 'false'));
+                if (!expanded) {
+                  dropdown.style.display = '';
+                  box.setAttribute('data-expanded', 'true');
+                } else {
+                  dropdown.style.display = 'none';
+                  box.setAttribute('data-expanded', 'false');
+                }
+              };
+              box.classList.add('name-group-expand');
+              nameTogglesDiv.appendChild(box);
+              const label = document.createElement('span');
+              label.textContent = group.label;
+              label.style.marginRight = '8px';
+              label.style.verticalAlign = 'middle';
+              label.style.cursor = 'pointer';
+              label.onclick = box.onclick;
+              nameTogglesDiv.appendChild(label);
+              // Dropdown list
+              const dropdown = document.createElement('div');
+              dropdown.className = 'name-group-dropdown';
+              dropdown.style.display = 'none';
+              dropdown.style.marginLeft = '35px';
+              dropdown.style.marginBottom = '6px';
+              dropdown.style.fontSize = '15px';
+              group.schools.forEach(schoolName => {
+                const schoolItem = document.createElement('div');
+                schoolItem.textContent = schoolName.replace(/\b\w/g, c => c.toUpperCase());
+                schoolItem.style.cursor = 'pointer';
+                schoolItem.style.color = '#0074d9';
+                schoolItem.style.marginBottom = '2px';
+                schoolItem.onclick = function() {
+                  // Snap to school location and open popup
+                  const normalized = schoolName.toLowerCase();
+                  let found = null;
+                  for (const s of data) {
+                    if (s.name.trim().toLowerCase() === normalized && s.lat && s.lon) {
+                      found = s;
+                      break;
+                    }
+                  }
+                  if (found) {
+                    map.setView([parseFloat(found.lat), parseFloat(found.lon)], 13, { animate: true });
+                    // Try to find and open the marker popup
+                    let marker = null;
+                    if (window._nameMarkers) {
+                      for (const m of window._nameMarkers) {
+                        if (m.getLatLng().lat === parseFloat(found.lat) && m.getLatLng().lng === parseFloat(found.lon)) {
+                          marker = m;
+                          break;
+                        }
+                      }
+                    }
+                    if (marker) marker.openPopup();
+                  }
+                };
+                dropdown.appendChild(schoolItem);
+              });
+              nameTogglesDiv.appendChild(dropdown);
+              nameTogglesDiv.appendChild(document.createElement('br'));
+            });
+          }
+        }
+        Array.from(document.querySelectorAll('input[name="filterMode"]')).forEach(radio => {
+          radio.onchange = () => {
+            renderToggles();
+            updateMarkers();
+          };
+        });
+        renderToggles();
+
+        function updateMarkers() {
+          // Always remove all rank markers
+          Object.values(markersByGroup).flat().forEach(m => map.removeLayer(m));
+          // Always remove all name markers
+          if (window._nameMarkers) window._nameMarkers.forEach(m => map.removeLayer(m));
+          window._nameMarkers = [];
+
+          const filterMode = document.querySelector('input[name="filterMode"]:checked').value;
+          if (filterMode === 'rank') {
+            // Add only active groups by rank
+            Object.entries(groupActive).forEach(([groupLabel, active]) => {
+              if (active) {
+                markersByGroup[groupLabel].forEach(m => m.addTo(map));
+              }
+            });
+          } else {
+            // Name filter mode: Annika and Morgan
+            nameGroups.forEach(group => {
+              if (!nameGroupActive[group.label]) return;
+              group.schools.forEach(schoolName => {
+                const normalized = schoolName.trim().toLowerCase();
+                const school = data.find(s => s.name.trim().toLowerCase() === normalized && s.lat && s.lon);
+                if (!school) return;
+                // Ensure popupId is unique per marker
+                const popupId = `${group.label}_${normalized.replace(/[^a-z0-9]/g, '')}`;
+                // Get state from school object or from Morgan's data
+                let state = school.state;
+                if (!state && morganProbs && morganProbs[school.name]) {
+                  state = morganProbs[school.name].state;
+                }
+                if (!state) state = '';
+                // Use LSAT scores from Annika's data or fallback to a default
+                let lsatScores = [];
+                if (annikaProbs && annikaProbs[getAnnikaKey(school.name)]) {
+                  lsatScores = Object.keys(annikaProbs[getAnnikaKey(school.name)])
+                    .filter(k => !isNaN(Number(k)))
+                    .map(Number)
+                    .sort((a, b) => a - b);
+                }
+                if (!lsatScores.length) lsatScores = [170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180];
+                let marker = L.marker([parseFloat(school.lat), parseFloat(school.lon)], {
+                  icon: L.divIcon({
+                    className: '',
+                    html: `<div style="width:20px;height:20px;border-radius:50%;background:${group.label==='Annika'?'#e75480':'#377eb8'};display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:15px;color:#fff;">${group.icon}</div>`,
+                    iconSize: [18, 18],
+                    iconAnchor: [9, 9]
+                  })
+                });
+                let probTable = `<div>Annika LSAT: <select id='${popupId}_lsat_annika'>`;
+                lsatScores.forEach(val => { probTable += `<option value='${val}'>${val}</option>`; });
+                probTable += `</select> &nbsp;Your LSAT: <select id='${popupId}_lsat_user'>`;
+                lsatScores.forEach(val => { probTable += `<option value='${val}'>${val}</option>`; });
+                probTable += `</select></div><table style='margin-top:6px;'><tr><td>Annika @ ${school.name}</td><td id='${popupId}_annika'>-</td></tr>`;
+                probTable += `<tr><td>Morgan @ any in ${state}</td><td id='${popupId}_morgan'>-</td></tr>`;
+                probTable += `<tr><td>Both (Annika @ ${school.name} AND Morgan @ any in ${state})</td><td id='${popupId}_joint'>-</td></tr></table>`;
+                marker.bindPopup(
+                  `<b>#${school.rank}: ${school.name}</b><br>` +
+                  (school.address ? `${school.address}<br>` : '') +
+                  (school.url ? `<a href="${school.url}" target="_blank">LSD.law profile</a><br>` : '') +
+                  probTable
+                );
+                marker.on('popupopen', function() {
+                  function updateProbs() {
+                    let annikaScore = document.getElementById(`${popupId}_lsat_annika`).value;
+                    let userScore = document.getElementById(`${popupId}_lsat_user`).value;
+                    let annika = '-';
+                    if (annikaProbs[school.name]) {
+                      if (annikaProbs[school.name][annikaScore] !== undefined) {
+                        annika = annikaProbs[school.name][annikaScore];
+                      } else {
+                        const scores = Object.keys(annikaProbs[school.name])
+                          .filter(k => !isNaN(Number(k)))
+                          .map(Number)
+                          .sort((a, b) => a - b);
+                        let closest = null;
+                        for (let i = 0; i < scores.length; i++) {
+                          if (scores[i] <= annikaScore) closest = scores[i];
+                          else break;
+                        }
+                        if (closest !== null && annikaProbs[school.name][closest] !== undefined) {
+                          annika = annikaProbs[school.name][closest];
+                        }
+                      }
+                    }
+                    let morganStateProbs = [];
+                    if (state && morganProbs) {
+                      // Find all schools Morgan applied to in this state
+                      Object.keys(morganProbs).forEach(schoolKey => {
+                        if (morganProbs[schoolKey].state === state && morganProbs[schoolKey][userScore] !== undefined) {
+                          morganStateProbs.push(morganProbs[schoolKey][userScore]);
+                        }
+                      });
+                    }
+                    let morganProb = '-';
+                    if (morganStateProbs.length) {
+                      // Probability of at least one admit
+                      morganProb = 1 - morganStateProbs.reduce((acc, p) => acc * (1-p), 1);
+                    }
+                    document.getElementById(`${popupId}_annika`).textContent = annika !== '-' ? (Math.round(annika*1000)/10)+'%' : '-';
+                    document.getElementById(`${popupId}_morgan`).textContent = morganProb !== '-' ? (Math.round(morganProb*1000)/10)+'%' : '-';
+                    let joint = '-';
+                    if(annika !== '-' && morganProb !== '-') joint = annika * morganProb;
+                    document.getElementById(`${popupId}_joint`).textContent = joint !== '-' ? (Math.round(joint*1000)/10)+'%' : '-';
+                  }
+                  const lsatSelAnnika = document.getElementById(`${popupId}_lsat_annika`);
+                  const lsatSelUser = document.getElementById(`${popupId}_lsat_user`);
+                  if (lsatSelAnnika) lsatSelAnnika.onchange = updateProbs;
+                  if (lsatSelUser) lsatSelUser.onchange = updateProbs;
+                  setTimeout(updateProbs, 10);
+                });
+                marker.addTo(map);
+                window._nameMarkers.push(marker);
+              }); // <-- closes group.schools.forEach
+            }); // <-- closes nameGroups.forEach
+          } // <-- closes else for name filter mode
+        } // <-- closes updateMarkers
+        updateMarkers();
+      }); // End Promise.all().then
+    }); // End DOMContentLoaded
+  </script>
+</body>
+</html>
